@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Kalkulator Lengkap: Bangun Datar & Ruang</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, 'Segoe UI', 'Roboto', 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #e0eafc 0%, #cfdef3 100%);
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0 0 8px 0;
+      font-size: 2rem;
+      color: #1a2a3a;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .sub {
+      text-align: center;
+      color: #2c3e4e;
+      margin-bottom: 30px;
+      font-weight: 500;
+      border-bottom: 2px solid #ffffff90;
+      display: inline-block;
+      width: auto;
+      margin-left: auto;
+      margin-right: auto;
+      padding-bottom: 8px;
+    }
+
+    /* tab navigation */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .tab-btn {
+      background: #f0f4fa;
+      border: none;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      color: #1f3a47;
+    }
+
+    .tab-btn.active {
+      background: #2c5282;
+      color: white;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      transform: scale(1.02);
+    }
+
+    .tab-btn:hover:not(.active) {
+      background: #d9e2ef;
+      transform: translateY(-2px);
+    }
+
+    /* card grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(2px);
+      border-radius: 32px;
+      padding: 20px 20px 24px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s;
+      border: 1px solid rgba(255,255,240,0.7);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 36px rgba(0, 0, 0, 0.12);
+    }
+
+    .card h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1e3a5f;
+      border-left: 6px solid #2b6a9e;
+      padding-left: 14px;
+    }
+
+    .desc {
+      font-size: 0.85rem;
+      color: #4a627a;
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .field {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .field label {
+      font-weight: 600;
+      color: #1f4a6e;
+      width: 95px;
+      font-size: 0.9rem;
+    }
+
+    .field input {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 20px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: #2c7ab1;
+      box-shadow: 0 0 0 3px #2c7ab140;
+    }
+
+    button.calc {
+      width: 100%;
+      background: #2c6e9e;
+      border: none;
+      padding: 12px;
+      border-radius: 40px;
+      font-weight: bold;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 8px;
+      margin-bottom: 16px;
+    }
+
+    button.calc:hover {
+      background: #1f547c;
+      transform: scale(0.98);
+    }
+
+    .result {
+      background: #e9f0f9;
+      border-radius: 28px;
+      padding: 14px 18px;
+      margin-top: 6px;
+    }
+
+    .result p {
+      margin: 6px 0;
+      font-size: 1rem;
+      word-break: break-word;
+    }
+
+    .result .label-result {
+      font-weight: 700;
+      color: #0a2f44;
+    }
+
+    hr {
+      margin: 8px 0;
+      border-color: #cfdfed;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 45px;
+      color: #2c4e6b;
+      background: rgba(255,255,245,0.7);
+      padding: 12px;
+      border-radius: 48px;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 700px) {
+      .card h3 { font-size: 1.3rem; }
+      .field label { width: 80px; font-size: 0.8rem; }
+      .tab-btn { padding: 8px 18px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>📐 Kalkulator Geometri Lengkap</h1>
+  <div style="text-align:center"><span class="sub">Luas | Volume | Luas Permukaan</span></div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="datar">🟧 Bangun Datar (Luas)</button>
+    <button class="tab-btn" data-tab="ruang">🧊 Bangun Ruang (Volume & Luas Permukaan)</button>
+  </div>
+
+  <!-- Panel Bangun Datar -->
+  <div id="datarPanel" class="cards-grid">
+    <!-- akan diisi javascript dinamis agar lebih rapi, tapi konten statis juga mudah -->
+  </div>
+
+  <!-- Panel Bangun Ruang -->
+  <div id="ruangPanel" class="cards-grid"></div>
+
+  <div class="footer-note">
+    ⚡ Masukkan nilai positif | Setiap bangun memiliki rumus luas, volume, dan luas permukaan sesuai standar.
+  </div>
+</div>
+
+<script>
+  // ======================= DATA BANGUN DATAR =======================
+  const datarShapes = [
+    { name: "Persegi", desc: "Rumus: sisi × sisi", fields: [{ label: "sisi (s)", id: "sisi_persegi", placeholder: "cm" }], 
+      compute: (vals) => { let s = parseFloat(vals[0]); return isNaN(s) ? 0 : s * s; }, unit: "cm²" },
+    { name: "Persegi Panjang", desc: "Luas = panjang × lebar", fields: [{ label: "panjang (p)", id: "p_panjang", placeholder: "cm" },{ label: "lebar (l)", id: "l_panjang", placeholder: "cm" }],
+      compute: (vals) => { let p = parseFloat(vals[0]), l = parseFloat(vals[1]); return (isNaN(p)||isNaN(l))?0:p*l; }, unit: "cm²" },
+    { name: "Segitiga", desc: "Luas = ½ × alas × tinggi", fields: [{ label: "alas (a)", id: "alas_segitiga", placeholder: "cm" },{ label: "tinggi (t)", id: "tinggi_segitiga", placeholder: "cm" }],
+      compute: (vals) => { let a = parseFloat(vals[0]), t = parseFloat(vals[1]); return (isNaN(a)||isNaN(t))?0:0.5*a*t; }, unit: "cm²" },
+    { name: "Lingkaran", desc: "Luas = π × r²", fields: [{ label: "jari-jari (r)", id: "r_lingkaran", placeholder: "cm" }],
+      compute: (vals) => { let r = parseFloat(vals[0]); return isNaN(r)?0:Math.PI * r * r; }, unit: "cm²" },
+    { name: "Trapesium", desc: "Luas = ½ × (a+b) × t", fields: [{ label: "sisi a", id: "a_trap", placeholder: "cm" },{ label: "sisi b", id: "b_trap", placeholder: "cm" },{ label: "tinggi (t)", id: "t_trap", placeholder: "cm" }],
+      compute: (vals) => { let a = parseFloat(vals[0]), b = parseFloat(vals[1]), t = parseFloat(vals[2]); return (isNaN(a)||isNaN(b)||isNaN(t))?0:0.5*(a+b)*t; }, unit: "cm²" },
+    { name: "Jajar Genjang", desc: "Luas = alas × tinggi", fields: [{ label: "alas (a)", id: "a_jajar", placeholder: "cm" },{ label: "tinggi (t)", id: "t_jajar", placeholder: "cm" }],
+      compute: (vals) => { let a = parseFloat(vals[0]), t = parseFloat(vals[1]); return (isNaN(a)||isNaN(t))?0:a*t; }, unit: "cm²" },
+    { name: "Belah Ketupat", desc: "Luas = ½ × d1 × d2", fields: [{ label: "diagonal 1 (d₁)", id: "d1_belah", placeholder: "cm" },{ label: "diagonal 2 (d₂)", id: "d2_belah", placeholder: "cm" }],
+      compute: (vals) => { let d1 = parseFloat(vals[0]), d2 = parseFloat(vals[1]); return (isNaN(d1)||isNaN(d2))?0:0.5*d1*d2; }, unit: "cm²" },
+    { name: "Layang-layang", desc: "Luas = ½ × d1 × d2", fields: [{ label: "diagonal 1 (d₁)", id: "d1_layang", placeholder: "cm" },{ label: "diagonal 2 (d₂)", id: "d2_layang", placeholder: "cm" }],
+      compute: (vals) => { let d1 = parseFloat(vals[0]), d2 = parseFloat(vals[1]); return (isNaN(d1)||isNaN(d2))?0:0.5*d1*d2; }, unit: "cm²" }
+  ];
+
+  // ======================= DATA BANGUN RUANG (Volume & Luas Permukaan) =======================
+  const ruangShapes = [
+    { name: "Kubus", desc: "Volume = s³ | Luas Permukaan = 6 × s²", 
+      fields: [{ label: "panjang sisi (s)", id: "s_kubus", placeholder: "cm" }],
+      computeAll: (vals) => { let s = parseFloat(vals[0]); if(isNaN(s)) return { volume:0, luasPermukaan:0 }; 
+        return { volume: Math.pow(s,3), luasPermukaan: 6 * s * s }; } },
+    { name: "Balok", desc: "Volume = p × l × t | LP = 2(pl + pt + lt)", 
+      fields: [{ label: "panjang (p)", id: "p_balok", placeholder: "cm" },{ label: "lebar (l)", id: "l_balok", placeholder: "cm" },{ label: "tinggi (t)", id: "t_balok", placeholder: "cm" }],
+      computeAll: (vals) => { let p = parseFloat(vals[0]), l = parseFloat(vals[1]), t = parseFloat(vals[2]); if(isNaN(p)||isNaN(l)||isNaN(t)) return {volume:0, luasPermukaan:0};
+        let vol = p*l*t; let lp = 2*(p*l + p*t + l*t); return { volume: vol, luasPermukaan: lp }; } },
+    { name: "Tabung", desc: "Volume = π × r² × t | LP = 2πr(r + t)", 
+      fields: [{ label: "jari-jari (r)", id: "r_tabung", placeholder: "cm" },{ label: "tinggi (t)", id: "t_tabung", placeholder: "cm" }],
+      computeAll: (vals) => { let r = parseFloat(vals[0]), t = parseFloat(vals[1]); if(isNaN(r)||isNaN(t)) return {volume:0, luasPermukaan:0};
+        let vol = Math.PI * r * r * t; let lp = 2 * Math.PI * r * (r + t); return { volume: vol, luasPermukaan: lp }; } },
+    { name: "Kerucut", desc: "Volume = ⅓ × π × r² × t | LP = π × r (r + s), s = √(r²+t²)", 
+      fields: [{ label: "jari-jari (r)", id: "r_kerucut", placeholder: "cm" },{ label: "tinggi (t)", id: "t_kerucut", placeholder: "cm" }],
+      computeAll: (vals) => { let r = parseFloat(vals[0]), t = parseFloat(vals[1]); if(isNaN(r)||isNaN(t)) return {volume:0, luasPermukaan:0};
+        let vol = (1/3) * Math.PI * r * r * t; let s = Math.sqrt(r*r + t*t); let lp = Math.PI * r * (r + s); return { volume: vol, luasPermukaan: lp }; } },
+    { name: "Bola", desc: "Volume = ⁴⁄₃ × π × r³ | LP = 4 × π × r²", 
+      fields: [{ label: "jari-jari (r)", id: "r_bola", placeholder: "cm" }],
+      computeAll: (vals) => { let r = parseFloat(vals[0]); if(isNaN(r)) return {volume:0, luasPermukaan:0};
+        let vol = (4/3) * Math.PI * Math.pow(r,3); let lp = 4 * Math.PI * r * r; return { volume: vol, luasPermukaan: lp }; } },
+    { name: "Limas Segiempat", desc: "Volume = ⅓ × luas alas × t | LP = luas alas + jumlah luas segitiga tegak", 
+      fields: [{ label: "sisi alas (s)", id: "s_limas", placeholder: "cm" },{ label: "tinggi limas (t)", id: "t_limas", placeholder: "cm" },{ label: "tinggi sisi tegak (ts)", id: "ts_limas", placeholder: "cm (opsional wajib)" }],
+      computeAll: (vals) => { let s = parseFloat(vals[0]), t = parseFloat(vals[1]), ts = parseFloat(vals[2]); 
+        if(isNaN(s)||isNaN(t)) return {volume:0, luasPermukaan:0};
+        let luasAlas = s * s; let vol = (1/3) * luasAlas * t;
+        let tinggiSisiTegak = isNaN(ts) ? Math.sqrt(Math.pow(s/2,2) + t*t) : ts;
+        let luasPermukaan = luasAlas + 4 * (0.5 * s * tinggiSisiTegak);
+        return { volume: vol, luasPermukaan: luasPermukaan }; } },
+    { name: "Prisma Segitiga", desc: "Volume = luas alas × tinggi prisma | LP = (2×luas alas) + keliling alas × t", 
+      fields: [{ label: "alas segitiga (a)", id: "a_prisma", placeholder: "cm" },{ label: "tinggi segitiga (t_seg)", id: "tseg_prisma", placeholder: "cm" },{ label: "tinggi prisma (tp)", id: "tp_prisma", placeholder: "cm" },{ label: "sisi miring? (opsional)", id: "side_c", placeholder: "jika perlu keliling" }],
+      computeAll: (vals) => { let a = parseFloat(vals[0]), tSeg = parseFloat(vals[1]), tp = parseFloat(vals[2]), cOpt = parseFloat(vals[3]);
+        if(isNaN(a)||isNaN(tSeg)||isNaN(tp)) return {volume:0, luasPermukaan:0};
+        let luasAlasSegitiga = 0.5 * a * tSeg;
+        let vol = luasAlasSegitiga * tp;
+        let sisiMiring = isNaN(cOpt) ? Math.sqrt(a*a + tSeg*tSeg) : cOpt;
+        let kelilingAlas = a + tSeg + sisiMiring;
+        let luasPermukaan = (2 * luasAlasSegitiga) + (kelilingAlas * tp);
+        return { volume: vol, luasPermukaan: luasPermukaan }; } }
+  ];
+
+  // Helper buat generate HTML bangun datar
+  function renderDatar() {
+    const container = document.getElementById("datarPanel");
+    container.innerHTML = "";
+    datarShapes.forEach((shape, idx) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      const fieldsHtml = shape.fields.map((f, i) => `
+        <div class="field">
+          <label>${f.label}</label>
+          <input type="number" step="any" id="${f.id}" placeholder="${f.placeholder}" value="">
+        </div>
+      `).join("");
+      const uniqueId = `btn_datar_${idx}`;
+      card.innerHTML = `
+        <h3>${shape.name}</h3>
+        <div class="desc">${shape.desc}</div>
+        <div class="input-group">${fieldsHtml}</div>
+        <button class="calc" data-shapeidx="${idx}" data-type="datar">Hitung Luas</button>
+        <div class="result" id="result_datar_${idx}">
+          <p>📐 Luas: <strong>—</strong> ${shape.unit}</p>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+    // attach event listener ke semua tombol di datar
+    document.querySelectorAll('#datarPanel .calc').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = btn.getAttribute('data-shapeidx');
+        const shape = datarShapes[idx];
+        const fieldIds = shape.fields.map(f => f.id);
+        const values = fieldIds.map(id => {
+          const el = document.getElementById(id);
+          return el ? el.value : "";
+        });
+        const luas = shape.compute(values);
+        const resultDiv = document.getElementById(`result_datar_${idx}`);
+        if(resultDiv) {
+          resultDiv.innerHTML = `<p>📐 Luas: <strong>${luas.toFixed(4)}</strong> ${shape.unit}</p>`;
+        }
+      });
+    });
+  }
+
+  function renderRuang() {
+    const container = document.getElementById("ruangPanel");
+    container.innerHTML = "";
+    ruangShapes.forEach((shape, idx) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      const fieldsHtml = shape.fields.map((f, i) => `
+        <div class="field">
+          <label>${f.label}</label>
+          <input type="number" step="any" id="${f.id}" placeholder="${f.placeholder}" value="">
+        </div>
+      `).join("");
+      card.innerHTML = `
+        <h3>${shape.name}</h3>
+        <div class="desc">${shape.desc}</div>
+        <div class="input-group">${fieldsHtml}</div>
+        <button class="calc" data-shapeidx="${idx}" data-type="ruang">Hitung Volume & Luas Permukaan</button>
+        <div class="result" id="result_ruang_${idx}">
+          <p>🧊 Volume: <strong>—</strong> cm³</p>
+          <p>📦 Luas Permukaan: <strong>—</strong> cm²</p>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+    document.querySelectorAll('#ruangPanel .calc').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = btn.getAttribute('data-shapeidx');
+        const shape = ruangShapes[idx];
+        const fieldIds = shape.fields.map(f => f.id);
+        const values = fieldIds.map(id => {
+          const el = document.getElementById(id);
+          return el ? el.value : "";
+        });
+        const { volume, luasPermukaan } = shape.computeAll(values);
+        const resultDiv = document.getElementById(`result_ruang_${idx}`);
+        if(resultDiv) {
+          resultDiv.innerHTML = `
+            <p>🧊 Volume: <strong>${volume.toFixed(4)}</strong> cm³</p>
+            <p>📦 Luas Permukaan: <strong>${luasPermukaan.toFixed(4)}</strong> cm²</p>
+          `;
+        }
+      });
+    });
+  }
+
+  // Tabs switching logic
+  function switchTab(tabId) {
+    const datarPanel = document.getElementById("datarPanel");
+    const ruangPanel = document.getElementById("ruangPanel");
+    if (tabId === "datar") {
+      datarPanel.style.display = "grid";
+      ruangPanel.style.display = "none";
+    } else {
+      datarPanel.style.display = "none";
+      ruangPanel.style.display = "grid";
+    }
+    // update active class on buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      if(btn.getAttribute('data-tab') === tabId) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+
+  // Inisialisasi dan event tabs
+  function init() {
+    renderDatar();
+    renderRuang();
+    const datarPanelEl = document.getElementById("datarPanel");
+    const ruangPanelEl = document.getElementById("ruangPanel");
+    // default: datar tampil, ruang disembunyiin
+    ruangPanelEl.style.display = "none";
+    datarPanelEl.style.display = "grid";
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-tab');
+        if(tab === 'datar') switchTab('datar');
+        else switchTab('ruang');
+      });
+    });
+  }
+
+  init();
+</script>
+</body>
+</html>
